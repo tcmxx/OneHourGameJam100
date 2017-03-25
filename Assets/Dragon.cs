@@ -38,15 +38,24 @@ public class Dragon : MonoBehaviour {
     // Use this for initialization
     void Start () {
         dragging = false;
-
+        transform.position = midPositoin.position;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(stamina <= 0)
+        {
+            Tired();
+        }
 	}
 
-
+    private void Tired()
+    {
+        GetComponent<PlayerInput>().enabled = false;
+        sRenderer.sprite = tiredSprite;
+        transform.position = midPositoin.position;
+        GameController.Instance.LoseGame();
+    }
 
     private void Shake(int level)
     {
@@ -68,7 +77,7 @@ public class Dragon : MonoBehaviour {
         }
 
         human.ReduceHoldingLevel(Mathf.Abs(lastRightLevel - level));
-
+        human.SetPositionLevel(true, level);
         if (lastRightLevel != level)
         {
             stamina--;
@@ -98,7 +107,7 @@ public class Dragon : MonoBehaviour {
         }
 
         human.ReduceHoldingLevel(Mathf.Abs(lastUpLevel - level));
-
+        human.SetPositionLevel(false, level);
         if (lastUpLevel != level)
         {
             stamina--;

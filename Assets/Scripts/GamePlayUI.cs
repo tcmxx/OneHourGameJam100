@@ -36,6 +36,7 @@ public class GamePlayUI : MonoBehaviour {
     public void SetEndGameText(string te)
     {
         endGameText.text = te;
+        endGameText.gameObject.SetActive(true);
     }
 
     public void SetCurrentScoreText(float score)

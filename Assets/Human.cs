@@ -12,17 +12,21 @@ public class Human : MonoBehaviour {
     public Transform leftPosition;
     public Transform upPosition;
     public Transform downPosition;
+    public Transform losePosition;
     public Sprite upSprite;
     public Sprite downSprite;
     public Sprite rightSprite;
     public Sprite leftSprite;
     public Sprite midSprite;
-    public Sprite tiredSprite;
+    public Sprite loseSprite;
 
+    public Dragon dragon;
+
+    bool lose = false;
     // Use this for initialization
     void Start () {
-		
-	}
+        SetPositionLevel(true, 0);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -34,12 +38,19 @@ public class Human : MonoBehaviour {
         holdingLevel -= num;
         if(holdingLevel <= 0)
         {
+            lose = true;
+            dragon.GetComponent<PlayerInput>().enabled = false;
+            sRenderer.sprite = loseSprite;
+            transform.position = losePosition.position;
             StartCoroutine(DropCoroutine());
         }
     }
 
     public void SetPositionLevel(bool rightOrUp, int level)
     {
+        if (lose)
+            return;
+
         if(level == 0)
         {
             transform.position = midPositoin.position;
@@ -72,7 +83,7 @@ public class Human : MonoBehaviour {
     IEnumerator DropCoroutine()
     {
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         GameController.Instance.WinGame();
     }

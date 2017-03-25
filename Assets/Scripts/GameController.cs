@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 
 	public static GameController Instance;
-
+    public GameObject finalSprite;
 	void Awake(){
 		Instance = this;
 	}
@@ -24,6 +24,12 @@ public class GameController : MonoBehaviour {
     public void WinGame()
     {
         GamePlayUI.gamePlayUI.ShowEndGameIU();
-        GamePlayUI.gamePlayUI.SetEndGameText("I Made This!");
+        finalSprite.SetActive(true);
+    }
+
+    public void LoseGame()
+    {
+        GamePlayUI.gamePlayUI.ShowEndGameIU();
+        GamePlayUI.gamePlayUI.SetEndGameText("Lose!");
     }
 }
