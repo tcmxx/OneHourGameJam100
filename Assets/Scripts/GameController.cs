@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour {
 
 	public static GameController Instance;
     public GameObject finalSprite;
+    public AudioSource aSource;
+    public AudioClip sfx;
 	void Awake(){
 		Instance = this;
 	}
@@ -25,10 +27,12 @@ public class GameController : MonoBehaviour {
     {
         GamePlayUI.gamePlayUI.ShowEndGameIU();
         finalSprite.SetActive(true);
+        aSource.PlayOneShot(sfx);
     }
 
     public void LoseGame()
     {
+        aSource.PlayOneShot(sfx);
         GamePlayUI.gamePlayUI.ShowEndGameIU();
         GamePlayUI.gamePlayUI.SetEndGameText("Lose!");
     }

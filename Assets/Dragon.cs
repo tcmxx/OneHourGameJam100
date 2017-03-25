@@ -35,6 +35,11 @@ public class Dragon : MonoBehaviour {
     public int stamina;
     public int maxStamina = 100;
 
+    public float noMoveTimeInterval = 1;
+    private float noMoveTimer;
+    
+    public AudioClip sfx;
+
     // Use this for initialization
     void Start () {
         dragging = false;
@@ -51,6 +56,7 @@ public class Dragon : MonoBehaviour {
 
     private void Tired()
     {
+        
         GetComponent<PlayerInput>().enabled = false;
         sRenderer.sprite = tiredSprite;
         transform.position = midPositoin.position;
@@ -123,8 +129,11 @@ public class Dragon : MonoBehaviour {
     {
 
         if (!dragging)
+        {
+            Jump(0);
+            Shake(0);
             return;
-
+        }
         Vector3 diff = position - lastPosition;
 
 
@@ -156,11 +165,33 @@ public class Dragon : MonoBehaviour {
             rightLevel = 0;
         }
 
-        if(Mathf.Abs(diff.x) > Mathf.Abs(diff.y))
-            Shake((right ? 1 : -1) * rightLevel);
+
+        bool reset = false;
+        if(rightLevel == 0 && upLevel == 0)
+        {
+            noMoveTimer -= Time.deltaTime;
+        }
         else
-            Jump((up?1:-1)*upLevel);
+        {
+            noMoveTimer = noMoveTimeInterval;
+        }
+
+        if(noMoveTimer <= 0)
+        {
+            reset = true;
+            noMoveTimer = noMoveTimeInterval;
+        }
         
+        if (rightLevel != 0)
+            Shake((right ? 1 : -1) * rightLevel);
+        else if(upLevel != 0)
+            Jump((up?1:-1)*upLevel);
+        else if (reset)
+        {
+            Jump(0);
+            Shake(0);
+        }
+        stamina--;
 
         lastPosition = position;
     }
