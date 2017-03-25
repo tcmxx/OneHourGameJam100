@@ -7,10 +7,16 @@ using UnityEngine.UI;
 public class GamePlayUI : MonoBehaviour {
 	public static GamePlayUI gamePlayUI;
 
-    public Text scoreText;
+    public Text currentScoreText;
+    public Text finalScoreText;
     public Text highScoreText;
+    public Text endGameText;
     public GameObject endGamePanel;
 
+    public Dragon dragonToTrack;
+    public Human humanToTrack;
+    public Image staminaImage;
+    public Image holdingImage;
 
     void Awake(){
 		gamePlayUI = this;
@@ -23,13 +29,24 @@ public class GamePlayUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        staminaImage.fillAmount = (float)dragonToTrack.stamina / dragonToTrack.maxStamina;
+        holdingImage.fillAmount = (float)humanToTrack.holdingLevel / humanToTrack.maxHoldingLevel;
+    }
 
-    public void SetScoreText(float score)
+    public void SetEndGameText(string te)
     {
-        scoreText.text = "Your score: " + score.ToString("F1");
-        scoreText.gameObject.SetActive(true);
+        endGameText.text = te;
+    }
+
+    public void SetCurrentScoreText(float score)
+    {
+        currentScoreText.text = "Your score: " + score.ToString("F1");
+    }
+
+    public void SetFinalScoreText(float score)
+    {
+        finalScoreText.text = "Your score: " + score.ToString("F1");
+        finalScoreText.gameObject.SetActive(true);
     }
 
     public void SetHighScoreText(float score)
@@ -41,7 +58,7 @@ public class GamePlayUI : MonoBehaviour {
     public void ShowEndGameIU()
     {
         endGamePanel.SetActive(true);
-        scoreText.gameObject.SetActive(false);
+        finalScoreText.gameObject.SetActive(false);
         highScoreText.gameObject.SetActive(false);
     }
 

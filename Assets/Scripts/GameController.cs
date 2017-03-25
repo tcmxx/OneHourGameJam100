@@ -19,4 +19,11 @@ public class GameController : MonoBehaviour {
 	void Update () {
 		
 	}
+
+
+    public void WinGame()
+    {
+        GamePlayUI.gamePlayUI.ShowEndGameIU();
+        GamePlayUI.gamePlayUI.SetEndGameText("I Made This!");
+    }
 }
